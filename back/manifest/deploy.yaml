@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: python
+spec:
+  selector:
+    matchLabels:
+      app: python
+  template:
+    metadata:
+      name: python
+      labels:
+        app: python
+    spec:
+      containers:
+      - name: python
+        image: marcotfm/youtube-dowload:1.0
+        ports:
+        -  containerPort: 9000
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: python
+spec:
+  selector:
+    app: python
+  ports:
+  - protocol: TCP
+    name: python
+    port: 9000
+    targetPort: 9000
+  type: LoadBalancer
