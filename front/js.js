@@ -21,6 +21,8 @@ $(document).ready(function () {
                 contentType: 'application/json',
                 success: function (response) {
                     alert('Arquivo enviado com sucesso!');
+                    console.log(response);
+                    displayDownloadButtons(response.results);
                 },
                 error: function () {
                     alert('Erro ao enviar arquivo.');
@@ -29,4 +31,19 @@ $(document).ready(function () {
         };
         reader.readAsText(fileInput);
     });
+
+    function displayDownloadButtons(results) {
+        var downloadContainer = $('#downloadButtons');
+        downloadContainer.empty();
+        results.forEach(function (result) {
+            if (result.file_link) {
+                var downloadButton = $('<a></a>')
+                    .attr('href', result.file_link)
+                    .attr('download', '')
+                    .text('Baixar ' + result.file_link.split('/').pop())
+                    .appendTo(downloadContainer);
+                downloadContainer.append('<br>');
+            }
+        });
+    }
 });
